@@ -1,0 +1,33 @@
+---
+title: "exploratory data analysis course project 2, Plot 1& 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(ggplot2)
+
+library(viridis)
+
+
+## This first line will likely take a few seconds. Be patient!
+NEI <- readRDS("summarySCC_PM25.rds")
+subsetNEI24510  <- NEI[NEI$fips=="24510", ]
+SCC <- readRDS("Source_Classification_Code.rds")
+
+png('plot1.png')
+annual.emissions <- summarise(group_by(NEI, year), Emissions=sum(Emissions))
+color_range<- c("purple", "blue", "green", "yellow")
+plot1<-barplot(height=annual.emissions$Emissions/1000, names.arg=annual.emissions$year,
+               xlab="years", ylab=expression('PM'[2.5]*' in Kilotons'),ylim=c(0,8000),
+               main=expression('Annual Emission PM'[2.5]*' from 1999 to 2008'),col=color_range)
+dev.off()
+
+
+
+
+```
+
+
